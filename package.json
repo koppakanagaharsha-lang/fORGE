@@ -1,0 +1,23 @@
+{
+  "name": "@koppakanagaharsha-lang/forge-agent",
+  "version": "1.0.0",
+  "description": "FORGE Autonomous AI Developer Agent",
+  "main": "index.js",
+  "bin": {
+    "forge": "./bin/forge"
+  },
+  "keywords": [
+    "ai",
+    "agent",
+    "autonomous",
+    "developer",
+    "autoresearch",
+    "mcp"
+  ],
+  "author": "koppakanagaharsha-lang",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/koppakanagaharsha-lang/fORGE.git"
+  }
+}

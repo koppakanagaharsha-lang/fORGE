@@ -25,6 +25,14 @@ Relay        Dual native broadcast — Telegram Polling + OpenClaw simultaneousl
 
 ## 🚀 Quick Start / Install
 
+Install globally via NPM:
+```bash
+npm install -g @koppakanagaharsha-lang/forge-agent
+forge install
+forge start
+```
+
+Alternatively, clone directly:
 ```bash
 git clone https://github.com/koppakanagaharsha-lang/fORGE.git
 cd fORGE
