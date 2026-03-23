@@ -1,0 +1,37 @@
+# FORGE Engine — .gitignore
+.env
+*.env
+*.key
+*.token
+*.pem
+
+# Runtime
+.installed
+.browser_binary
+.telegram_last_update
+runner.pid
+pending_command
+
+# Logs
+logs/
+*.log
+
+# Arena forks (temporary, never commit)
+arena/fork_*/
+arena/results/
+arena/backup_*/
+
+# Workspace
+workspace/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Node
+node_modules/
+
+# OS
+.DS_Store
+Thumbs.db

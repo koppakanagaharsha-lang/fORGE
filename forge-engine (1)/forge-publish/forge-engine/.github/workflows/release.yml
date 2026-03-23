@@ -1,0 +1,57 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate all files
+        run: |
+          echo "Shell syntax..."
+          find . -name "*.sh" | while read f; do bash -n "$f" && echo "✓ $f"; done
+
+          echo "Python syntax..."
+          find . -name "*.py" | while read f; do python3 -m py_compile "$f" && echo "✓ $f"; done
+
+          echo "No credentials..."
+          if grep -rE "(api_key|token|password)\s*=\s*['\"][a-zA-Z0-9_\-]{20,}" \
+             --include="*.sh" --include="*.py" .; then
+            echo "FAIL: possible credentials"; exit 1
+          fi
+          echo "✓ clean"
+
+          echo "Safety wall intact..."
+          grep -q "IMMUTABLE_FILES" sentinel/safety_check.py && echo "✓ sentinel"
+          grep -q "def check" core/safety.py && echo "✓ safety.py"
+
+      - name: Create release archive
+        run: |
+          zip -r forge-engine-${{ github.ref_name }}.zip . \
+            --exclude ".git/*" --exclude "*__pycache__*" --exclude "*.pyc"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: forge-engine-${{ github.ref_name }}.zip
+          body: |
+            ## FORGE Engine ${{ github.ref_name }}
+
+            ### Install
+            ```bash
+            export FORGE_GITHUB_USER=${{ github.repository_owner }}
+            curl -fsSL https://raw.githubusercontent.com/${{ github.repository }}/main/install.sh | bash
+            ```
+
+            See README for full setup instructions.
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

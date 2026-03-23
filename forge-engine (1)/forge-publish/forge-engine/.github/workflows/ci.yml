@@ -1,0 +1,57 @@
+name: FORGE CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install deps
+        run: pip install websocket-client
+
+      - name: Shell syntax
+        run: |
+          find . -name "*.sh" | while read f; do
+            bash -n "$f" && echo "✓ $f" || (echo "✗ $f" && exit 1)
+          done
+
+      - name: Python syntax
+        run: |
+          find . -name "*.py" | while read f; do
+            python3 -m py_compile "$f" && echo "✓ $f" || (echo "✗ $f" && exit 1)
+          done
+
+      - name: No credentials in repo
+        run: |
+          ! grep -rE "(api_key|token|password)\s*=\s*['\"][a-zA-Z0-9_\-]{16,}" \
+            --include="*.sh" --include="*.py" --include="*.json" \
+            --exclude-dir=".git" . 2>/dev/null || \
+            (echo "FAIL: possible credentials found" && exit 1)
+          echo "✓ no credentials"
+
+      - name: Safety wall present
+        run: |
+          grep -q "IMMUTABLE_FILES" sentinel/safety_check.py && echo "✓ sentinel ok" || \
+            (echo "FAIL: safety_check.py missing IMMUTABLE_FILES" && exit 1)
+          grep -q "def check" core/safety.py && echo "✓ safety.py ok" || \
+            (echo "FAIL: safety.py missing check function" && exit 1)
+
+      - name: Phantom allowlist present
+        run: |
+          grep -q "ALLOWED_DOMAINS" phantom/cdp.py && echo "✓ allowlist ok" || \
+            (echo "FAIL: cdp.py missing ALLOWED_DOMAINS" && exit 1)
+
+      - name: Arena mutation threshold enforced
+        run: |
+          grep -q "THRESHOLD" arena/race.sh && echo "✓ threshold present" || \
+            (echo "FAIL: race.sh missing mutation threshold check" && exit 1)

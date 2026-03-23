@@ -1,0 +1,280 @@
+{
+  "mcpServers": {
+    "forge-filesystem": {
+      "description": "Read and write files in the forge workspace",
+      "tools": [
+        {
+          "name": "read_file",
+          "description": "Read a file's contents",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string",
+                "description": "Absolute or relative path to file"
+              },
+              "start_line": {
+                "type": "integer",
+                "description": "Start line (1-indexed)"
+              },
+              "end_line": {
+                "type": "integer",
+                "description": "End line (inclusive)"
+              }
+            },
+            "required": [
+              "path"
+            ]
+          }
+        },
+        {
+          "name": "write_file",
+          "description": "Write content to a file",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string"
+              },
+              "content": {
+                "type": "string"
+              },
+              "create_dirs": {
+                "type": "boolean",
+                "default": true
+              }
+            },
+            "required": [
+              "path",
+              "content"
+            ]
+          }
+        },
+        {
+          "name": "edit_file",
+          "description": "Replace a specific string in a file",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string"
+              },
+              "old_str": {
+                "type": "string",
+                "description": "Exact string to replace"
+              },
+              "new_str": {
+                "type": "string",
+                "description": "Replacement string"
+              }
+            },
+            "required": [
+              "path",
+              "old_str",
+              "new_str"
+            ]
+          }
+        },
+        {
+          "name": "list_dir",
+          "description": "List directory contents",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string",
+                "default": "."
+              },
+              "recursive": {
+                "type": "boolean",
+                "default": false
+              }
+            }
+          }
+        }
+      ]
+    },
+    "forge-shell": {
+      "description": "Execute shell commands",
+      "tools": [
+        {
+          "name": "shell",
+          "description": "Run a shell command and return output",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "cmd": {
+                "type": "string",
+                "description": "Shell command to execute"
+              },
+              "cwd": {
+                "type": "string",
+                "description": "Working directory"
+              },
+              "timeout": {
+                "type": "integer",
+                "default": 60
+              }
+            },
+            "required": [
+              "cmd"
+            ]
+          }
+        }
+      ]
+    },
+    "forge-git": {
+      "description": "Git operations",
+      "tools": [
+        {
+          "name": "git",
+          "description": "Perform git operations",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "operation": {
+                "type": "string",
+                "enum": [
+                  "status",
+                  "add",
+                  "commit",
+                  "push",
+                  "pull",
+                  "diff",
+                  "log",
+                  "branch",
+                  "init"
+                ]
+              },
+              "cwd": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string",
+                "description": "Commit message (for commit)"
+              },
+              "files": {
+                "type": "string",
+                "description": "Files to add (for add)"
+              }
+            },
+            "required": [
+              "operation"
+            ]
+          }
+        }
+      ]
+    },
+    "forge-fetch": {
+      "description": "HTTP requests to allowed APIs",
+      "tools": [
+        {
+          "name": "fetch",
+          "description": "Make an HTTP request to an allowed API",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "url": {
+                "type": "string"
+              },
+              "method": {
+                "type": "string",
+                "default": "GET"
+              },
+              "headers": {
+                "type": "object"
+              },
+              "body": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "url"
+            ]
+          }
+        }
+      ]
+    },
+    "forge-advanced": {
+      "description": "Advanced autonomous and browsing capabilities",
+      "tools": [
+        {
+          "name": "browser",
+          "description": "Human-like web browsing using opencode and phantom",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "action": {
+                "type": "string",
+                "enum": [
+                  "start",
+                  "navigate",
+                  "read",
+                  "click"
+                ]
+              },
+              "url": {
+                "type": "string",
+                "description": "URL to navigate to, or selector to click"
+              }
+            },
+            "required": [
+              "action"
+            ]
+          }
+        },
+        {
+          "name": "antigravity",
+          "description": "Invoke the antigravity app for complex Forest Blue UI generation",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "request": {
+                "type": "string",
+                "description": "Detailed description of the UI to generate"
+              }
+            },
+            "required": [
+              "request"
+            ]
+          }
+        },
+        {
+          "name": "stitch",
+          "description": "Invoke stitch for human-like execution of multiple parallel tasks",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "tasks": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "List of tasks"
+              }
+            },
+            "required": [
+              "tasks"
+            ]
+          }
+        },
+        {
+          "name": "opencode",
+          "description": "Delegate a complex coding or research task to the opencode agent",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "prompt": {
+                "type": "string",
+                "description": "The prompt or task for the agent"
+              }
+            },
+            "required": [
+              "prompt"
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

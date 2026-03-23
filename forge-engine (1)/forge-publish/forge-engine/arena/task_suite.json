@@ -1,0 +1,32 @@
+[
+  {
+    "id": "t1",
+    "type": "python_function",
+    "prompt": "Write a Python function called retry_with_backoff that retries a callable up to n times with exponential backoff. Include type hints and docstring.",
+    "expect_contains": ["def retry_with_backoff", "sleep", "attempt", "return"]
+  },
+  {
+    "id": "t2",
+    "type": "shell_script",
+    "prompt": "Write a bash script that monitors a directory for new files and logs their names and sizes to a timestamped log file.",
+    "expect_contains": ["inotifywait", "while", "echo", "date"]
+  },
+  {
+    "id": "t3",
+    "type": "python_class",
+    "prompt": "Write a Python class for an in-memory key-value store with TTL expiry, get, set, and delete methods. Thread-safe.",
+    "expect_contains": ["class", "def get", "def set", "threading", "time"]
+  },
+  {
+    "id": "t4",
+    "type": "javascript",
+    "prompt": "Write a JavaScript async function that fetches data from multiple URLs in parallel with a concurrency limit of N.",
+    "expect_contains": ["async", "Promise", "await", "limit", "function"]
+  },
+  {
+    "id": "t5",
+    "type": "readme",
+    "prompt": "Write a professional README for a CLI tool called 'forge-watch' that monitors GitHub repositories for new issues and sends Telegram notifications.",
+    "expect_contains": ["## Installation", "## Usage", "## Configuration", "forge-watch"]
+  }
+]

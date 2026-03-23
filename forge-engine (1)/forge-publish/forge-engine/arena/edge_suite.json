@@ -1,0 +1,20 @@
+[
+  {
+    "id": "e1",
+    "type": "edge_case",
+    "prompt": "Write a Python function that safely parses JSON from a string, returning None on any error, and handles empty strings, None input, and malformed JSON.",
+    "expect_contains": ["def ", "try", "except", "return None", "json"]
+  },
+  {
+    "id": "e2",
+    "type": "edge_case",
+    "prompt": "Write a bash function that kills a process by name but only if it has been running for more than N minutes, safely handling the case where the process doesn't exist.",
+    "expect_contains": ["ps", "awk", "kill", "2>/dev/null"]
+  },
+  {
+    "id": "e3",
+    "type": "edge_case",
+    "prompt": "Write a Python context manager that acquires a file lock, handles the case where the lock is held by another process, and always releases the lock even if an exception occurs.",
+    "expect_contains": ["contextmanager", "yield", "finally", "lock", "__enter__"]
+  }
+]
